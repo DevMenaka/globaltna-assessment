@@ -30,33 +30,43 @@ export default function JobDetail() {
   };
 
   const handleStatusChange = async (newStatus) => {
-    try {
-      const res = await fetch(`/api/jobs/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus }),
-      });
-      if (res.ok) {
-        setJob({ ...job, status: newStatus });
-      }
-    } catch (error) {
-      console.error("Error updating status:", error);
+  try {
+    // Insert Correct API URL
+    const res = await fetch(`/api/jobs/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus }),
+    });
+
+    if (res.ok) {
+      // Page Refresh After Update
+      window.location.reload(); 
+    } else {
+      alert("Failed to update status.");
     }
-  };
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 
   const handleDelete = async () => {
-    if (!confirm("Are you sure you want to delete this request?")) return;
-    try {
-      const res = await fetch(`/api/jobs/${id}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        router.push("/");
-      }
-    } catch (error) {
-      console.error("Error deleting job:", error);
+  if (!confirm("Are you sure you want to delete this request?")) return;
+
+  try {
+    const res = await fetch(`/api/jobs/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      alert("Job deleted successfully!");
+      router.push("/"); // Return To Dshboard After Delete
+    } else {
+      alert("Failed to delete job.");
     }
-  };
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 
   if (loading) return <div className="min-h-screen flex justify-center items-center text-white">Loading...</div>;
   if (!job) return <div className="min-h-screen flex justify-center items-center text-white">Job not found.</div>;

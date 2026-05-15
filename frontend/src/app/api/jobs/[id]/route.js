@@ -30,9 +30,11 @@ export async function GET(request, { params }) {
 // PATCH: Update job status (e.g., Open to In Progress)
 export async function PATCH(request, { params }) {
   await connectDB();
+  const { id } = await params;
+
   try {
     const data = await request.json();
-    const updatedJob = await Job.findByIdAndUpdate(params.id, data, { new: true });
+    const updatedJob = await Job.findByIdAndUpdate(id, data, { new: true });
     return NextResponse.json(updatedJob);
   } catch (error) {
     return NextResponse.json({ error: "Update failed" }, { status: 400 });
@@ -42,8 +44,10 @@ export async function PATCH(request, { params }) {
 // DELETE: Remove a job request from the database
 export async function DELETE(request, { params }) {
   await connectDB();
+  const { id } = await params; 
+
   try {
-    await Job.findByIdAndDelete(params.id);
+    await Job.findByIdAndDelete(id);
     return NextResponse.json({ message: "Job deleted successfully" });
   } catch (error) {
     return NextResponse.json({ error: "Delete failed" }, { status: 400 });

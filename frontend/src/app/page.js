@@ -7,22 +7,20 @@ export default function Home() {
   const [jobs, setJobs] = useState([]);
   const [category, setCategory] = useState("");
 
-  useEffect(() => {
-    fetchJobs();
-  }, [category]);
-
+ useEffect(() => {
   const fetchJobs = async () => {
     try {
-        // insert category query param if category is selected
-        const endpoint = category ? `/api/jobs?category=${category}` : '/api/jobs';
-        
-        const res = await fetch(endpoint);
-        const data = await res.json();
-        setJobs(data);
+      const endpoint = category ? `/api/jobs?category=${category}` : '/api/jobs';
+      const res = await fetch(endpoint);
+      const data = await res.json();
+      setJobs(data);
     } catch (error) {
-        console.error("Error fetching jobs:", error);
+      console.error("Error fetching jobs:", error);
     }
-};
+  };
+
+  fetchJobs();
+}, [category]);
 
   return (
     <main className="min-h-screen p-8 md:p-24 max-w-7xl mx-auto">

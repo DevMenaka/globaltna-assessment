@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
-import Job from '../../models/Job'; // කලින් කොපි කරපු model එක
+import Job from '../../models/Job'; 
 
 const connectDB = async () => {
   if (mongoose.connections[0].readyState) return;

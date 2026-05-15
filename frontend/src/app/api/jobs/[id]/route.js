@@ -15,11 +15,16 @@ const connectDB = async () => {
 // GET: Fetch a single job by ID from the database 
 // Job ID is passed as a parameter
 export async function GET(request, { params }) {
-  await connectDB();
-  // params.id is the job ID from the URL (e.g., /api/jobs/123)
-  const job = await Job.findById(params.id); 
-  if (!job) return NextResponse.json({ error: "Job not found" }, { status: 404 });
-  return NextResponse.json(job);
+    await connectDB();
+    const { id } = await params;
+    
+    try {
+        const job = await Job.findById(id);
+        if (!job) return NextResponse.json({ error: "Job not found" }, { status: 404 });
+        return NextResponse.json(job);
+    } catch (error) {
+        return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
+    }
 }
 
 // PATCH: Update job status (e.g., Open to In Progress)

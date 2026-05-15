@@ -1,32 +1,18 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const JobRequestSchema = new mongoose.Schema({
-  title: { 
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  category: { type: String, required: true },
+  location: { type: String, required: true },
+  contactName: { type: String, required: true },
+  contactEmail: { type: String, required: true },
+  status: { 
     type: String, 
-    required: [true, 'Title is required'] 
+    enum: ['Open', 'In Progress', 'Closed'], 
+    default: 'Open' 
   },
-  description: { 
-    type: String, 
-    required: [true, 'Description is required'] 
-  },
-  category: { 
-    type: String 
-  },
-  location: { 
-    type: String 
-  },
-  contactName: { 
-    type: String 
-  },
-  contactEmail: {
-    type: String,
-    match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address']
-  },
-  status: {
-    type: String,
-    enum: ['Open', 'In Progress', 'Closed'],
-    default: 'Open'
-  }
-}, { timestamps: true }); // This will add 'createdAt' and 'updatedAt' automatically
+}, { timestamps: true });
 
-module.exports = mongoose.model('JobRequest', JobRequestSchema);
+// Prevent model overwrite during hot reloads in Next.js
+export default mongoose.models.JobRequest || mongoose.model('JobRequest', JobRequestSchema);

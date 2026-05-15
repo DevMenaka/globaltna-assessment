@@ -14,9 +14,10 @@ export default function JobDetail() {
     fetchJob();
   }, [id]);
 
+
   const fetchJob = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`);
+      const res = await fetch(`/api/jobs/${id}`);
       if (res.ok) {
         const data = await res.json();
         setJob(data);
@@ -30,7 +31,7 @@ export default function JobDetail() {
 
   const handleStatusChange = async (newStatus) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+      const res = await fetch(`/api/jobs/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -46,7 +47,7 @@ export default function JobDetail() {
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this request?")) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+      const res = await fetch(`/api/jobs/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {

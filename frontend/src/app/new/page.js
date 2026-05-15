@@ -23,10 +23,12 @@ export default function NewJob() {
     try {
       const res = await fetch('/api/jobs', {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
       });
-
+      
       if (res.ok) {
         router.push("/");
       } else {

@@ -13,17 +13,16 @@ export default function Home() {
 
   const fetchJobs = async () => {
     try {
-      const url = category 
-        ? `${process.env.NEXT_PUBLIC_API_URL}?category=${category}`
-        : process.env.NEXT_PUBLIC_API_URL;
-      
-      const res = await fetch(url);
-      const data = await res.json();
-      setJobs(data);
+        // insert category query param if category is selected
+        const endpoint = category ? `/api/jobs?category=${category}` : '/api/jobs';
+        
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        setJobs(data);
     } catch (error) {
-      console.error("Error fetching jobs:", error);
+        console.error("Error fetching jobs:", error);
     }
-  };
+};
 
   return (
     <main className="min-h-screen p-8 md:p-24 max-w-7xl mx-auto">
